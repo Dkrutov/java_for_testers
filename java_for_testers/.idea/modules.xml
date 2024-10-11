@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/java_for_testers.iml" filepath="$PROJECT_DIR$/java_for_testers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saindbox.iml" filepath="$PROJECT_DIR$/saindbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/saindbox.main.iml" filepath="$PROJECT_DIR$/.idea/modules/saindbox.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/saindbox.test.iml" filepath="$PROJECT_DIR$/.idea/modules/saindbox.test.iml" />
     </modules>
   </component>
 </project>
