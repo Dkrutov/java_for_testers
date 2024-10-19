@@ -75,5 +75,31 @@ public class TriangleTests {
             System.out.println(exception.getMessage());
         }
     }
+    @Test
+    void testEquality1() {
+        Triangle t1 = new Triangle(3,4,5);
+        Triangle t2 = new Triangle(3,4,5);
+        Assertions.assertTrue(t1.equals(t2));
+    }
+    @Test
+    void testEquality2() {
+        Triangle t1 = new Triangle(3,4,5);
+        Triangle t2 = new Triangle(4,5,3);
+        Assertions.assertTrue(t1.equals(t2));
+    }
+
+    @Test
+    void testEquality3() {
+        Triangle t1 = new Triangle(3,4,5);
+        Triangle t2 = new Triangle(3,5,4);
+        Assertions.assertTrue(t1.equals(t2));
+    }
+
+    @Test
+    void testEquality4() {
+        Triangle t1 = new Triangle(3,4,5);
+        Triangle t2 = new Triangle(4,3,5);
+        Assertions.assertTrue(t1.equals(t2));
+    }
 
 }
