@@ -19,27 +19,27 @@ public class TriangleTests {
     @Test
     void cannotCreateTriangleWithNegativeSideA() {
         try {
-            new Triangle(-3.0, 3.0, 3.0);
+            new Triangle(-3.0, 4.0, 5.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
-            //ok
+            System.out.println(exception.getMessage());
         }
     }
 
     @Test
     void cannotCreateTriangleWithNegativeSideB() {
         try {
-            new Triangle(3.0, -3.0, 3.0);
+            new Triangle(3.0, -4.0, 5.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
-            //ok
+            System.out.println(exception.getMessage());
         }
     }
 
     @Test
     void cannotCreateTriangleWithNegativeSideC() {
         try {
-            new Triangle(3.0, 3.0, -3.0);
+            new Triangle(3.0, 4.0, -5.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
@@ -49,7 +49,7 @@ public class TriangleTests {
     @Test
     void cannotCreateTriangleWithSideIncorrectRatioC() {
         try {
-            new Triangle(2.0, 2.0, 25.0);
+            new Triangle(3.0, 4.0, 8.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
@@ -59,7 +59,7 @@ public class TriangleTests {
     @Test
     void cannotCreateTriangleWithSideIncorrectRatioB() {
         try {
-            new Triangle(2.0, 25.0, 2.0);
+            new Triangle(3.0, 8.0, 4.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
@@ -69,7 +69,7 @@ public class TriangleTests {
     @Test
     void cannotCreateTriangleWithSideIncorrectRatioA() {
         try {
-            new Triangle(25.0, 2.0, 2.0);
+            new Triangle(8.0, 3.0, 4.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
