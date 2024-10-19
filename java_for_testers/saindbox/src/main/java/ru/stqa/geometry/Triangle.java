@@ -10,6 +10,13 @@ public class Triangle {
                 this.a = a;
                 this.b = b;
                 this.c = c;
+                if (a < 0 || c < 0  || b < 0  ) {
+                        throw new IllegalArgumentException("Triangle side should be non-negative");
+                }
+
+                if (a + b < c || a + c < b  || c + b < a  ) {
+                        throw new IllegalArgumentException("The ratio of the sides of the triangle is incorrect");
+                }
         }
 
         public double area(){
