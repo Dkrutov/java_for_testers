@@ -59,7 +59,7 @@ public class TriangleTests {
     @Test
     void cannotCreateTriangleWithSideIncorrectRatioB() {
         try {
-            new Triangle(3.0, 8.0, 4.0);
+            new Triangle(3.4, 8.1, 4.6);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
@@ -69,37 +69,37 @@ public class TriangleTests {
     @Test
     void cannotCreateTriangleWithSideIncorrectRatioA() {
         try {
-            new Triangle(8.0, 3.0, 4.0);
+            new Triangle(8.0, 3.4, 4.5);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
         }
     }
     @Test
-    void testEquality1() {
-        Triangle t1 = new Triangle(3,4,5);
-        Triangle t2 = new Triangle(3,4,5);
+    void testEqualityTrue1() {
+        Triangle t1 = new Triangle(3.3,4.4,5.5);
+        Triangle t2 = new Triangle(3.3,4.4,5.5);
         Assertions.assertTrue(t1.equals(t2));
     }
     @Test
-    void testEquality2() {
-        Triangle t1 = new Triangle(3,4,5);
-        Triangle t2 = new Triangle(4,5,3);
-        Assertions.assertTrue(t1.equals(t2));
-    }
-
-    @Test
-    void testEquality3() {
-        Triangle t1 = new Triangle(3,4,5);
-        Triangle t2 = new Triangle(3,5,4);
+    void testEqualityTrue2() {
+        Triangle t1 = new Triangle(3.3,4.4,5.5);
+        Triangle t2 = new Triangle(4.4,5.5,3.3);
         Assertions.assertTrue(t1.equals(t2));
     }
 
     @Test
-    void testEquality4() {
-        Triangle t1 = new Triangle(3,4,5);
-        Triangle t2 = new Triangle(4,3,5);
+    void testEqualityTrue3() {
+        Triangle t1 = new Triangle(3.3,4.4,5.5);
+        Triangle t2 = new Triangle(3.3,5.5,4.4);
         Assertions.assertTrue(t1.equals(t2));
+    }
+
+    @Test
+    void testEqualityFalse() {
+        Triangle t1 = new Triangle(3.3,4.4,5.5);
+        Triangle t2 = new Triangle(3.3,4.4,5.6);
+        Assertions.assertFalse(t1.equals(t2));
     }
 
 }
