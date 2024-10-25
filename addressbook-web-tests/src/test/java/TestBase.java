@@ -29,4 +29,22 @@ public class TestBase {
             return false;
         }
     }
+
+    protected void createGroup(String group_name, String group_header, String group_footer) {
+        driver.findElement(By.name("new")).click();
+        driver.findElement(By.name("group_name")).click();
+        driver.findElement(By.name("group_name")).sendKeys(group_name);
+        driver.findElement(By.name("group_header")).click();
+        driver.findElement(By.name("group_header")).sendKeys(group_header);
+        driver.findElement(By.name("group_footer")).click();
+        driver.findElement(By.name("group_footer")).sendKeys(group_footer);
+        driver.findElement(By.name("submit")).click();
+        driver.findElement(By.linkText("group page")).click();
+    }
+
+    protected void openGroupPage() {
+        if (!isElementPresent(By.name("new"))) {
+            driver.findElement(By.linkText("groups")).click();
+        }
+    }
 }
