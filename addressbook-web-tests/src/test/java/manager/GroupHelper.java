@@ -3,9 +3,7 @@ package manager;
 import model.GroupData;
 import org.openqa.selenium.By;
 
-public class GroupHelper {
-    private final ApplicationManager manager;
-
+public class GroupHelper extends HelperBase {
 
 
     public void createGroup(GroupData group) {
@@ -33,7 +31,7 @@ public class GroupHelper {
     }
 
     public GroupHelper(ApplicationManager manager){
-        this.manager = manager;
+        super(manager);
     }
 
     public void openGroupPage() {
@@ -80,11 +78,7 @@ public class GroupHelper {
         type(By.name("group_footer"), group.footer());
     }
 
-    private void type(By locator, String text) {
-        click(locator);
-        manager.driver.findElement(locator).clear();
-        manager.driver.findElement(locator).sendKeys(text);
-    }
+
 
     private void submitGroupModification() {
         click(By.name("update"));
@@ -95,7 +89,5 @@ public class GroupHelper {
     private void returnToGroupPage() {
         click(By.linkText("group page"));
     }
-    private void click(By locator) {
-        manager.driver.findElement(locator).click();
-    }
+
 }
