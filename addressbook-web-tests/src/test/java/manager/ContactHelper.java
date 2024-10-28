@@ -2,6 +2,7 @@ package manager;
 
 import model.ContactData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 
 public class ContactHelper extends HelperBase {
 
@@ -20,6 +21,11 @@ public class ContactHelper extends HelperBase {
         openHomePage();
         selectContact();
         removeSelectedContact();
+        try {
+            manager.driver.switchTo().alert().accept();
+        } catch (NoAlertPresentException exception) {
+            exception.printStackTrace();
+        }
         openHomePage();
     }
 
