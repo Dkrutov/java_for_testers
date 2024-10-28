@@ -4,7 +4,9 @@ import model.GroupData;
 import org.openqa.selenium.By;
 
 public class GroupHelper extends HelperBase {
-
+    public GroupHelper(ApplicationManager manager){
+        super(manager);
+    }
 
     public void createGroup(GroupData group) {
         openGroupPage();
@@ -30,9 +32,7 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();
     }
 
-    public GroupHelper(ApplicationManager manager){
-        super(manager);
-    }
+
 
     public void openGroupPage() {
         if (!manager.isElementPresent(By.name("new"))) {
