@@ -4,7 +4,7 @@ import model.GroupData;
 import org.openqa.selenium.By;
 
 public class GroupHelper extends HelperBase {
-    public GroupHelper(ApplicationManager manager){
+    public GroupHelper(ApplicationManager manager) {
         super(manager);
     }
 
@@ -33,7 +33,6 @@ public class GroupHelper extends HelperBase {
     }
 
 
-
     public void openGroupPage() {
         if (!manager.isElementPresent(By.name("new"))) {
             click(By.linkText("groups"));
@@ -46,7 +45,6 @@ public class GroupHelper extends HelperBase {
     }
 
 
-
     private void submitGroupCreation() {
         click(By.name("submit"));
     }
@@ -56,12 +54,9 @@ public class GroupHelper extends HelperBase {
     }
 
 
-
     private void removeSelectedGroup() {
         click(By.name("delete"));
     }
-
-
 
 
     private void selectGroup() {
@@ -79,11 +74,9 @@ public class GroupHelper extends HelperBase {
     }
 
 
-
     private void submitGroupModification() {
         click(By.name("update"));
     }
-
 
 
     private void returnToGroupPage() {
