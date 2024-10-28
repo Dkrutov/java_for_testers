@@ -10,17 +10,17 @@ public class ContactHelper extends HelperBase {
     }
 
     public void createContact(ContactData contact) {
-        click(By.linkText("add new"));
+        initContactCreation();
         fillContactForm(contact);
         submitContactCreation();
-        returnToHomePage();
+        openHomePage();
     }
 
     public void removeContact() {
-        returnToHomePage();
+        openHomePage();
         selectContact();
         removeSelectedContact();
-        returnToHomePage();
+        openHomePage();
     }
 
     private void selectContact() {
@@ -44,13 +44,17 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    private void returnToHomePage() {
+    private void openHomePage() {
         click(By.linkText("home"));
     }
 
     public boolean isContactPresent() {
-        returnToHomePage();
+        openHomePage();
         return manager.isElementPresent(By.name("selected[]"));
+    }
+
+    private void initContactCreation() {
+        click(By.linkText("add new"));
     }
 
 
