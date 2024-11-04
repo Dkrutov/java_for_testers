@@ -63,5 +63,10 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
+    public int getCountContacs() {
+        openHomePage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
 
 }

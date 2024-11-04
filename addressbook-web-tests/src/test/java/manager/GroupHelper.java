@@ -78,10 +78,12 @@ public class GroupHelper extends HelperBase {
         click(By.linkText("group page"));
     }
 
-    public int getCount() {
+    public int getCountGroups() {
         openGroupPage();
         return manager.driver.findElements(By.name("selected[]")).size();
     }
+
+
 
     public void removeAllGroups() {
         openGroupPage();
