@@ -26,6 +26,15 @@ public class TestBase {
      return result;
     }
 
+    public static String randomInt(int n) {
+        var rnd = new Random();
+        var result = "";
+        for (int i = 0; i < n; i++) {
+            result = result + Integer.toString(rnd.nextInt(9));
+        }
+        return result;
+    }
+
 
 
 

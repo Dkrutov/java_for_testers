@@ -63,9 +63,22 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public int getCountContacs() {
+    public int getCountContacts() {
         openHomePage();
         return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public void removeAllContacts() {
+        openHomePage();
+        selectAllContacts();
+        removeSelectedContact();
+    }
+
+    private void selectAllContacts() {
+        var checkboxes =  manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes ) {
+            checkbox.click();
+        }
     }
 
 
