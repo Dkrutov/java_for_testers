@@ -1,7 +1,6 @@
 package manager;
 
 import model.ContactData;
-import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 
@@ -33,8 +32,26 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        openHomePage();
+        getInitContactModification(contact);
+        fillContactForm(modifiedContact);
+        getSubmitContactModification();
+        openHomePage();
+    }
+
+
+    public void getInitContactModification(ContactData contact) {
+        click(By.xpath(String.format("//a[@href='edit.php?id=%s']", contact.id())));
+    }
+
+    public void getSubmitContactModification() {
+        click(By.name("update"));
+    }
+
+
     private void selectContact(ContactData contact) {
-        click(By.cssSelector(String.format("input[value='%s']",contact.id())));
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     private void removeSelectedContact() {
@@ -79,8 +96,8 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectAllContacts() {
-        var checkboxes =  manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox : checkboxes ) {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes) {
             checkbox.click();
         }
     }
