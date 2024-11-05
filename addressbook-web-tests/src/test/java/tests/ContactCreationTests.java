@@ -18,21 +18,33 @@ public class ContactCreationTests extends TestBase {
                 for (var address : List.of("", "address")) {
                     for (var email : List.of("", "email@email")) {
                         for (var phone : List.of("", "99999999999")) {
-                            result.add(new ContactData(firstName, "middleName", lastName, address, email, phone));
+                            result.add(new ContactData()
+                                    .withFirstName(firstName)
+                                    .withLastName(lastName)
+                                    .withMiddleName("middleName")
+                                    .withAddress(address)
+                                    .withEmail(email)
+                                    .withPhone(phone));
                         }
                     }
                 }
             }
         }
         for (int i = 0; i < 3; i++) {
-            result.add(new ContactData(randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10), randomInt(11)));
+            result.add(new ContactData()
+                    .withFirstName(randomString(i * 10))
+                    .withLastName(randomString(i * 10))
+                    .withMiddleName(randomString(i * 10))
+                    .withAddress(randomString(i * 10))
+                    .withEmail(randomString(i * 10))
+                    .withPhone(randomInt(11)));
         }
         return result;
     }
 
     public static List<ContactData> contactNegativeProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData("firstName'", "", "", "", "", "")));
+                new ContactData("", "firstName'", "", "", "", "", "")));
         return result;
     }
 

@@ -1,6 +1,7 @@
 package model;
 
 public record ContactData(
+        String id,
         String firstName,
         String middleName,
         String lastName,
@@ -10,19 +11,35 @@ public record ContactData(
         ) {
 
     public ContactData(){
-        this("","","","","","");
+        this("", "","","","","","");
+    }
+
+    public ContactData withId(String id) {
+        return new ContactData(id, this.firstName, this.middleName, this.lastName, this.address, this.email, this.phone);
     }
 
     public ContactData withFirstName(String firstName) {
-        return new ContactData(firstName, this.middleName, this.lastName, this.address, this.email, this.phone);
+        return new ContactData(this.id, firstName, this.middleName, this.lastName, this.address, this.email, this.phone);
     }
 
     public ContactData withLastName(String lastName) {
-        return new ContactData(this.firstName, this.middleName, lastName, this.address, this.email, this.phone);
+        return new ContactData(this.id, this.firstName, this.middleName, lastName, this.address, this.email, this.phone);
+    }
+
+    public ContactData withMiddleName(String middleName) {
+        return new ContactData(this.id, this.firstName, middleName, this.lastName, this.address, this.email, this.phone);
     }
 
     public ContactData withAddress(String address) {
-        return new ContactData(this.firstName, this.middleName, this.lastName, address, this.email, this.phone);
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, address, this.email, this.phone);
+    }
+
+    public ContactData withEmail(String email) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName,  this.address,email, this.phone);
+    }
+
+    public ContactData withPhone(String phone) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName,  this.address,this.email, phone);
     }
 
     public ContactData contactValidation(
@@ -33,6 +50,6 @@ public record ContactData(
             String email,
             String phone
     ) {
-        return new ContactData(firstName, middleName, lastName, address, email, phone);
+        return new ContactData(this.id, firstName, middleName, lastName, address, email, phone);
     }
 }

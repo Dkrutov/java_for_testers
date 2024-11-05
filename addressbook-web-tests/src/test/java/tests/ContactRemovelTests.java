@@ -4,6 +4,9 @@ import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class ContactRemovelTests extends TestBase {
 
     @Test
@@ -11,10 +14,14 @@ public class ContactRemovelTests extends TestBase {
         if (!app.contacts().isContactPresent()) {
             app.contacts().createContact(new ContactData());
         }
-        int contactCount = app.contacts().getCountContacts();
-        app.contacts().removeContact();
-        int newContactCount = app.contacts().getCountContacts();
-        Assertions.assertEquals(contactCount - 1,newContactCount);
+        var oldContacts = app.contacts().getListContact();
+        var rnd = new Random();
+        var index = rnd.nextInt(oldContacts.size());
+        app.contacts().removeContact(oldContacts.get(index));
+        var newContacts = app.contacts().getListContact();
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.remove(index);
+        Assertions.assertEquals(newContacts,expectedList);
     }
 
     @Test

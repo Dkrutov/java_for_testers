@@ -1,8 +1,12 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -17,9 +21,9 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
-    public void removeContact() {
+    public void removeContact(ContactData contact) {
         openHomePage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContact();
         try {
             manager.driver.switchTo().alert().accept();
@@ -29,8 +33,8 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[value='%s']",contact.id())));
     }
 
     private void removeSelectedContact() {
@@ -79,6 +83,20 @@ public class ContactHelper extends HelperBase {
         for (var checkbox : checkboxes ) {
             checkbox.click();
         }
+    }
+
+    public List<ContactData> getListContact() {
+        openHomePage();
+        var contacts = new ArrayList<ContactData>();
+        var trs = manager.driver.findElements(By.xpath("//tr[@name='entry']"));
+        for (var tr : trs) {
+            var firstName =tr.findElement(By.xpath("//td[2]")).getText();
+            var lastName =tr.findElement(By.xpath("//td[3]")).getText();
+            var checkbox = tr.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+        }
+        return contacts;
     }
 
 
