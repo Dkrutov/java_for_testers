@@ -1,7 +1,7 @@
 package tests;
 
+import common.CommonFunction;
 import model.ContactData;
-import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class ContactCreationTests extends TestBase {
 
@@ -36,19 +35,19 @@ public class ContactCreationTests extends TestBase {
         for (int i = 0; i < 3; i++) {
             if (i == 0) {
                 result.add(new ContactData()
-                        .withFirstName(randomString(i))
-                        .withLastName(randomString(i))
-                        .withMiddleName(randomString(i))
-                        .withAddress(randomString(i))
-                        .withEmail(randomString(i))
+                        .withFirstName(CommonFunction.randomString(i))
+                        .withLastName(CommonFunction.randomString(i))
+                        .withMiddleName(CommonFunction.randomString(i))
+                        .withAddress(CommonFunction.randomString(i))
+                        .withEmail(CommonFunction.randomString(i))
                         .withPhone(randomInt(i)));
             } else {
                 result.add(new ContactData()
-                        .withFirstName(randomString(i * 10))
-                        .withLastName(randomString(i * 10))
-                        .withMiddleName(randomString(i * 10))
-                        .withAddress(randomString(i * 10))
-                        .withEmail(randomString(i * 10))
+                        .withFirstName(CommonFunction.randomString(i * 10))
+                        .withLastName(CommonFunction.randomString(i * 10))
+                        .withMiddleName(CommonFunction.randomString(i * 10))
+                        .withAddress(CommonFunction.randomString(i * 10))
+                        .withEmail(CommonFunction.randomString(i * 10))
                         .withPhone(randomInt(11)));
             }
 
@@ -58,13 +57,20 @@ public class ContactCreationTests extends TestBase {
 
     public static List<ContactData> contactNegativeProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData("", "firstName'", "", "", "", "", "")));
+                new ContactData("", "firstName'", "", "", "", "", "","")));
         return result;
     }
 
     @Test
     public void canCreateContact() {
-        app.contacts().createContact(new ContactData().contactValidation("FirstName", "MiddleName", "LastName", "City N, N street, 99", "email@email", "89997776655"));
+        app.contacts().createContact(new ContactData()
+                .withFirstName(CommonFunction.randomString( 10))
+                .withLastName(CommonFunction.randomString( 10))
+                .withMiddleName(CommonFunction.randomString( 10))
+                .withAddress(CommonFunction.randomString( 10))
+                .withEmail(CommonFunction.randomString( 10))
+                .withPhone(randomInt(11))
+                .withPhoto(randomFile("src/test/resources/images")));
     }
 
     @ParameterizedTest

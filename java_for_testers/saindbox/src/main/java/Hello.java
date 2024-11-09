@@ -1,6 +1,8 @@
+import java.io.File;
+
 public class Hello {
     public static void main(String[] args) {
-        try {
+       /* try {
             int z = calculate();
             System.out.println(z);
             System.out.println("Hello world");
@@ -21,5 +23,11 @@ public class Hello {
     private static int getZ2(int x, int y) {
         int z = x / y;
         return z;
+        */
+        System.out.println("Hello world");
+        var configFile = new File("saindbox/build.gradl");
+        System.out.println(configFile.getAbsoluteFile());
+        System.out.println(configFile.exists());
     }
+
 }
