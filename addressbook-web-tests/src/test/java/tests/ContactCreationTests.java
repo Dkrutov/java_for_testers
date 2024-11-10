@@ -40,25 +40,26 @@ public class ContactCreationTests extends TestBase {
 //            }
 //        }
         var mapper = new ObjectMapper();
-        var value = mapper.readValue(new File("contacts.json"),new TypeReference<List<ContactData>>() {} );
+        var value = mapper.readValue(new File("contacts.json"), new TypeReference<List<ContactData>>() {
+        });
         result.addAll(value);
         return result;
     }
 
     public static List<ContactData> contactNegativeProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData("", "firstName'", "", "", "", "", "",CommonFunction.randomFile("src/test/resources/images"))));
+                new ContactData("", "firstName'", "", "", "", "", "", CommonFunction.randomFile("src/test/resources/images"))));
         return result;
     }
 
     @Test
     public void canCreateContact() {
         app.contacts().createContact(new ContactData()
-                .withFirstName(CommonFunction.randomString( 10))
-                .withLastName(CommonFunction.randomString( 10))
-                .withMiddleName(CommonFunction.randomString( 10))
-                .withAddress(CommonFunction.randomString( 10))
-                .withEmail(CommonFunction.randomString( 10))
+                .withFirstName(CommonFunction.randomString(10))
+                .withLastName(CommonFunction.randomString(10))
+                .withMiddleName(CommonFunction.randomString(10))
+                .withAddress(CommonFunction.randomString(10))
+                .withEmail(CommonFunction.randomString(10))
                 .withPhone(CommonFunction.randomInt(11))
                 .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
     }
@@ -75,14 +76,14 @@ public class ContactCreationTests extends TestBase {
         newContacts.sort(compareById);
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.withId(newContacts.get(newContacts
-                .size() - 1).id())
+                        .size() - 1).id())
                 .withMiddleName("")
                 .withAddress("")
                 .withEmail("")
                 .withPhone("")
                 .withPhoto(""));
         expectedList.sort(compareById);
-        Assertions.assertEquals(newContacts,expectedList);
+        Assertions.assertEquals(newContacts, expectedList);
     }
 
     @ParameterizedTest

@@ -11,22 +11,21 @@ import model.ContactData;
 import model.GroupData;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Generator {
 
-    @Parameter(names = {"--type","-t"})
-     String type;
+    @Parameter(names = {"--type", "-t"})
+    String type;
 
-    @Parameter(names = {"--output","-o"})
-     String output;
+    @Parameter(names = {"--output", "-o"})
+    String output;
 
-    @Parameter(names = {"--format","-f"})
+    @Parameter(names = {"--format", "-f"})
     String format;
 
-    @Parameter(names = {"--count","-n"})
+    @Parameter(names = {"--count", "-n"})
     int count;
 
     public static void main(String[] args) throws IOException {
@@ -49,14 +48,14 @@ public class Generator {
             var mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.writeValue(new File(output), data);
-        } else if  ("yaml".equals(format)) {
+        } else if ("yaml".equals(format)) {
             var mapper = new YAMLMapper();
             mapper.writeValue(new File(output), data);
         } else if ("xml".equals(format)) {
             var mapper = new XmlMapper();
             mapper.writeValue(new File(output), data);
         } else {
-            throw new  IllegalArgumentException("Неизвестный формат данных " + format);
+            throw new IllegalArgumentException("Неизвестный формат данных " + format);
         }
     }
 
@@ -73,7 +72,7 @@ public class Generator {
 
     private Object generateContacts() {
         var result = new ArrayList<ContactData>();
-        for (int i = 0; i < count ; i++) {
+        for (int i = 0; i < count; i++) {
             if (i == 0) {
                 result.add(new ContactData()
                         .withFirstName(CommonFunction.randomString(i))
@@ -100,7 +99,7 @@ public class Generator {
 
     private Object generateGroups() {
         var result = new ArrayList<GroupData>();
-        for (int i = 0; i < count ; i++) {
+        for (int i = 0; i < count; i++) {
             result.add(new GroupData()
                     .withName(CommonFunction.randomString(i * 10))
                     .withFooter(CommonFunction.randomString(i * 10))

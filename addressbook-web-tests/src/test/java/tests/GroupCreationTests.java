@@ -41,14 +41,15 @@ public class GroupCreationTests extends TestBase {
         //var json = Files.readString(Paths.get("groups.json"));
         //ObjectMapper mapper = new ObjectMapper();
         var mapper = new XmlMapper();
-        var value = mapper.readValue(new File("groups.xml"),new TypeReference<List<GroupData>>() {} );
+        var value = mapper.readValue(new File("groups.xml"), new TypeReference<List<GroupData>>() {
+        });
         result.addAll(value);
         return result;
     }
 
     public static List<GroupData> negativeGroupProvider() {
         var result = new ArrayList<GroupData>(List.of(
-                new GroupData("", "group name'","","")));
+                new GroupData("", "group name'", "", "")));
         return result;
     }
 
@@ -63,9 +64,9 @@ public class GroupCreationTests extends TestBase {
         };
         newGroups.sort(compareById);
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()).withHeader("").withFooter(""));
+        expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
         expectedList.sort(compareById);
-        Assertions.assertEquals(newGroups,expectedList);
+        Assertions.assertEquals(newGroups, expectedList);
     }
 
     @ParameterizedTest
@@ -74,6 +75,6 @@ public class GroupCreationTests extends TestBase {
         var oldGroups = app.groups().getList();
         app.groups().createGroup(group);
         var newGroups = app.groups().getList();
-        Assertions.assertEquals(newGroups,oldGroups);
+        Assertions.assertEquals(newGroups, oldGroups);
     }
 }
