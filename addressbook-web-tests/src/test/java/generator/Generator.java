@@ -4,7 +4,10 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import common.CommonFunction;
+import model.ContactData;
 import model.GroupData;
 
 import java.io.File;
@@ -43,18 +46,18 @@ public class Generator {
 
     private void save(Object data) throws IOException {
         if ("json".equals(format)) {
-            ObjectMapper mapper = new ObjectMapper();
+            var mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            var json = mapper.writeValueAsString(data);
-
-            try (var writer = new FileWriter(output)) {
-                writer.write(json);
-            }
+            mapper.writeValue(new File(output), data);
+        } else if  ("yaml".equals(format)) {
+            var mapper = new YAMLMapper();
+            mapper.writeValue(new File(output), data);
+        } else if ("xml".equals(format)) {
+            var mapper = new XmlMapper();
+            mapper.writeValue(new File(output), data);
         } else {
             throw new  IllegalArgumentException("Неизвестный формат данных " + format);
         }
-
-
     }
 
     private Object generate() {
@@ -69,8 +72,31 @@ public class Generator {
     }
 
     private Object generateContacts() {
-        return null;
+        var result = new ArrayList<ContactData>();
+        for (int i = 0; i < count ; i++) {
+            if (i == 0) {
+                result.add(new ContactData()
+                        .withFirstName(CommonFunction.randomString(i))
+                        .withLastName(CommonFunction.randomString(i))
+                        .withMiddleName(CommonFunction.randomString(i))
+                        .withAddress(CommonFunction.randomString(i))
+                        .withEmail(CommonFunction.randomString(i))
+                        .withPhone(CommonFunction.randomInt(i))
+                        .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
+            } else {
+                result.add(new ContactData()
+                        .withFirstName(CommonFunction.randomString(i * 10))
+                        .withLastName(CommonFunction.randomString(i * 10))
+                        .withMiddleName(CommonFunction.randomString(i * 10))
+                        .withAddress(CommonFunction.randomString(i * 10))
+                        .withEmail(CommonFunction.randomString(i * 10))
+                        .withPhone(CommonFunction.randomInt(11))
+                        .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
+            }
+        }
+        return result;
     }
+
 
     private Object generateGroups() {
         var result = new ArrayList<GroupData>();

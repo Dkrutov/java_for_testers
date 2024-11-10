@@ -1,63 +1,53 @@
 package tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunction;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-    public static List<ContactData> contactProvider() {
+    public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
-        for (var firstName : List.of("", "firstName")) {
-            for (var lastName : List.of("", "lastName")) {
-                for (var address : List.of("", "address")) {
-                    for (var email : List.of("", "email@email")) {
-                        for (var phone : List.of("", "99999999999")) {
-                            result.add(new ContactData()
-                                    .withFirstName(firstName)
-                                    .withLastName(lastName)
-                                    .withMiddleName("middleName")
-                                    .withAddress(address)
-                                    .withEmail(email)
-                                    .withPhone(phone));
-                        }
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            if (i == 0) {
-                result.add(new ContactData()
-                        .withFirstName(CommonFunction.randomString(i))
-                        .withLastName(CommonFunction.randomString(i))
-                        .withMiddleName(CommonFunction.randomString(i))
-                        .withAddress(CommonFunction.randomString(i))
-                        .withEmail(CommonFunction.randomString(i))
-                        .withPhone(randomInt(i)));
-            } else {
-                result.add(new ContactData()
-                        .withFirstName(CommonFunction.randomString(i * 10))
-                        .withLastName(CommonFunction.randomString(i * 10))
-                        .withMiddleName(CommonFunction.randomString(i * 10))
-                        .withAddress(CommonFunction.randomString(i * 10))
-                        .withEmail(CommonFunction.randomString(i * 10))
-                        .withPhone(randomInt(11)));
-            }
-
-        }
+//        for (var firstName : List.of("", "firstName")) {
+//            for (var lastName : List.of("", "lastName")) {
+//                for (var address : List.of("", "address")) {
+//                    for (var email : List.of("", "email@email")) {
+//                        for (var phone : List.of("", "99999999999")) {
+//                            result.add(new ContactData()
+//                                    .withFirstName(firstName)
+//                                    .withLastName(lastName)
+//                                    .withMiddleName("middleName")
+//                                    .withAddress(address)
+//                                    .withEmail(email)
+//                                    .withPhone(phone));
+//                                    .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        var mapper = new ObjectMapper();
+        var value = mapper.readValue(new File("contacts.json"),new TypeReference<List<ContactData>>() {} );
+        result.addAll(value);
         return result;
     }
 
     public static List<ContactData> contactNegativeProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData("", "firstName'", "", "", "", "", "","")));
+                new ContactData("", "firstName'", "", "", "", "", "",CommonFunction.randomFile("src/test/resources/images"))));
         return result;
     }
 
@@ -69,8 +59,8 @@ public class ContactCreationTests extends TestBase {
                 .withMiddleName(CommonFunction.randomString( 10))
                 .withAddress(CommonFunction.randomString( 10))
                 .withEmail(CommonFunction.randomString( 10))
-                .withPhone(randomInt(11))
-                .withPhoto(randomFile("src/test/resources/images")));
+                .withPhone(CommonFunction.randomInt(11))
+                .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
     }
 
     @ParameterizedTest
@@ -89,7 +79,8 @@ public class ContactCreationTests extends TestBase {
                 .withMiddleName("")
                 .withAddress("")
                 .withEmail("")
-                .withPhone(""));
+                .withPhone("")
+                .withPhoto(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts,expectedList);
     }
