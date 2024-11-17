@@ -32,7 +32,7 @@ public class ContactCreationTests extends TestBase {
 //                                    .withMiddleName("middleName")
 //                                    .withAddress(address)
 //                                    .withEmail(email)
-//                                    .withPhone(phone));
+//                                    .withPhone(phone)
 //                                    .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
 //                        }
 //                    }

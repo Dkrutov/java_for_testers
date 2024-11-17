@@ -1,5 +1,6 @@
 package tests;
 
+import common.CommonFunction;
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

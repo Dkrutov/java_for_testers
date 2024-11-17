@@ -27,6 +27,7 @@ public record ContactData(
         return new ContactData(this.id, this.firstName, this.middleName, lastName, this.address, this.email, this.phone, this.photo);
     }
 
+
     public ContactData withMiddleName(String middleName) {
         return new ContactData(this.id, this.firstName, middleName, this.lastName, this.address, this.email, this.phone, this.photo);
     }
