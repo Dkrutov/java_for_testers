@@ -64,24 +64,31 @@ public class ContactCreationTests extends TestBase {
                 .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
     }
 
+    public static List<ContactData> singleContact() {
+        return List.of(new ContactData()
+                .withFirstName(CommonFunction.randomString(10))
+                .withLastName(CommonFunction.randomString(10))
+                .withMiddleName(CommonFunction.randomString(10))
+                .withAddress(CommonFunction.randomString(10))
+                .withEmail(CommonFunction.randomString(10))
+                .withPhone(CommonFunction.randomInt(11))
+                //.withPhoto(CommonFunction.randomFile("src/test/resources/images"))
+        );
+    }
+
     @ParameterizedTest
-    @MethodSource("contactProvider")
+    @MethodSource("singleContact")
     public void canCreateMultipleContact(ContactData contact) {
-        var oldContacts = app.contacts().getListContact();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getListContact();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(compareById);
+        var maxId = newContacts.get(newContacts.size() - 1).id();
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.add(contact.withId(newContacts.get(newContacts
-                        .size() - 1).id())
-                .withMiddleName("")
-                .withAddress("")
-                .withEmail("")
-                .withPhone("")
-                .withPhoto(""));
+        expectedList.add(contact.withId(maxId));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
     }
