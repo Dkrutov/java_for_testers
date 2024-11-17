@@ -21,7 +21,7 @@ public class ApplicationManager {
 
     private JdbcHelper jdbc;
 
-    private HibernateHelper hmb;
+    private HibernateHelper hbm;
 
     private  Properties properties;
 
@@ -70,11 +70,11 @@ public class ApplicationManager {
         return jdbc;
     }
 
-    public  HibernateHelper hmb() {
-        if (hmb == null) {
-            hmb = new HibernateHelper(this);
+    public  HibernateHelper hbm() {
+        if (hbm == null) {
+            hbm = new HibernateHelper(this);
         }
-        return hmb;
+        return hbm;
     }
 
     protected boolean isElementPresent(By locator) {
