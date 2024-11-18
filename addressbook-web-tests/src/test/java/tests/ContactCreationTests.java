@@ -64,6 +64,27 @@ public class ContactCreationTests extends TestBase {
                 .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
     }
 
+    @Test
+    public void canCreateContactInGroup() {
+        var contacts = new ContactData()
+                .withFirstName(CommonFunction.randomString(10))
+                .withLastName(CommonFunction.randomString(10))
+                .withMiddleName(CommonFunction.randomString(10))
+                .withAddress(CommonFunction.randomString(10))
+                .withEmail(CommonFunction.randomString(10))
+                .withPhone(CommonFunction.randomInt(11))
+                .withPhoto(CommonFunction.randomFile("src/test/resources/images"));
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+
+        var oldRelated = app.hbm().getContctsInGroup(group);
+        app.contacts().createContact(contacts, group);
+        var newRelated = app.hbm().getContctsInGroup(group);
+        Assertions.assertEquals(oldRelated.size()+1, newRelated.size());
+    }
+
     public static List<ContactData> singleContact() {
         return List.of(new ContactData()
                 .withFirstName(CommonFunction.randomString(10))
