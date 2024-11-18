@@ -72,7 +72,7 @@ public class ContactCreationTests extends TestBase {
                 .withAddress(CommonFunction.randomString(10))
                 .withEmail(CommonFunction.randomString(10))
                 .withPhone(CommonFunction.randomInt(11))
-                //.withPhoto(CommonFunction.randomFile("src/test/resources/images"))
+                .withPhoto(CommonFunction.randomFile("src/test/resources/images"))
         );
     }
 
@@ -88,7 +88,7 @@ public class ContactCreationTests extends TestBase {
         newContacts.sort(compareById);
         var maxId = newContacts.get(newContacts.size() - 1).id();
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.add(contact.withId(maxId));
+        expectedList.add(contact.withId(maxId).withPhoto(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
     }
