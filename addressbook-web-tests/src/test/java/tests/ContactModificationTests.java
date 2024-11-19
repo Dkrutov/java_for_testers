@@ -33,22 +33,24 @@ public class ContactModificationTests extends TestBase {
     }
 
     @Test
-    public void ContactModificationInGroup() {
-
-        if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData());
-        }
+    public void ContactModificationAddInGroup() {
+//        if (app.hbm().getContactCount() == 0) {
+//            app.hbm().createContact(new ContactData());
+//        }
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
         }
         var group = app.hbm().getGroupList().get(0);
-        
-        var oldRelated = app.hbm().getContactsInGroup(group);
-        var oldContacts = app.hbm().getContactList();
-        var rnd = new Random();
-        var index = rnd.nextInt(oldContacts.size());
 
-        app.contacts().modifyContactInGroup(oldContacts.get(index), group);
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        var contactNonGroup = app.contacts().getListContactNonGroup();
+        if (contactNonGroup.isEmpty()) {
+            app.hbm().createContact(new ContactData());
+            contactNonGroup = app.contacts().getListContactNonGroup();
+        }
+        var rnd = new Random();
+        var index = rnd.nextInt(contactNonGroup.size());
+        app.contacts().modifyContactInGroup(contactNonGroup.get(index), group);
 
         var newRelated = app.hbm().getContactsInGroup(group);
         Comparator<ContactData> compareById = (o1, o2) -> {
@@ -56,13 +58,13 @@ public class ContactModificationTests extends TestBase {
         };
         newRelated.sort(compareById);
         var expectedList = new ArrayList<>(oldRelated);
-        expectedList.add(oldContacts.get(index));
+        expectedList.add(contactNonGroup.get(index));
         expectedList.sort(compareById);
         Assertions.assertEquals(newRelated, expectedList);
     }
 
 
     @Test
-    public void ContactModificationOutGroup() {
+    public void ContactModificationRemoveFromGroup() {
     }
 }

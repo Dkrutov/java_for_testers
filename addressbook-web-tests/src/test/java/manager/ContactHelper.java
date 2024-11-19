@@ -71,6 +71,8 @@ public class ContactHelper extends HelperBase {
     }
 
 
+
+
     public void getInitContactModification(ContactData contact) {
         click(By.xpath(String.format("//a[@href='edit.php?id=%s']", contact.id())));
     }
@@ -154,6 +156,25 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
         }
         return contacts;
+    }
+
+    public List<ContactData> getListContactNonGroup() {
+        openHomePage();
+        selectNonGroup();
+        var contacts = new ArrayList<ContactData>();
+        var trs = manager.driver.findElements(By.xpath("//tr[@name='entry']"));
+        for (var tr : trs) {
+            var firstName = tr.findElement(By.xpath("td[3]")).getText();
+            var lastName = tr.findElement(By.xpath("td[2]")).getText();
+            var checkbox = tr.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+        }
+        return contacts;
+    }
+
+    private void selectNonGroup() {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue("[none]");
     }
 
 
