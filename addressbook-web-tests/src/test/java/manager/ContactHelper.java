@@ -54,6 +54,22 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
+    public void modifyContactInGroup(ContactData contact, GroupData group) {
+        openHomePage();
+        selectContact(contact);
+        selectInGroup(group);
+        initContactInGroup();
+        openHomePage();
+    }
+
+    private void initContactInGroup() {
+        click(By.name("add"));
+    }
+
+    private void selectInGroup(GroupData group) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+    }
+
 
     public void getInitContactModification(ContactData contact) {
         click(By.xpath(String.format("//a[@href='edit.php?id=%s']", contact.id())));
@@ -139,6 +155,7 @@ public class ContactHelper extends HelperBase {
         }
         return contacts;
     }
+
 
 
 }

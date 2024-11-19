@@ -1,6 +1,5 @@
 package manager;
 
-import common.CommonFunction;
 import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
 import model.ContactData;
@@ -21,7 +20,7 @@ public class HibernateHelper extends HelperBase {
         sessionFactory = new Configuration()
                 .addAnnotatedClass(ContactRecord.class)
                 .addAnnotatedClass(GroupRecord.class)
-                .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook?zeroDataTimeBehavior=convertToNull")
+                .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook?zeroDateTimeBehavior=convertToNull")
                 .setProperty(AvailableSettings.USER, "root")
                 .setProperty(AvailableSettings.PASS, "")
                 .buildSessionFactory();
@@ -117,7 +116,7 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
-    public List<ContactData> getContctsInGroup(GroupData group) {
+    public List<ContactData> getContactsInGroup(GroupData group) {
         return sessionFactory.fromSession(session ->{
             return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
         });

@@ -2,7 +2,6 @@ package tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunction;
 import model.ContactData;
 import model.GroupData;
@@ -78,10 +77,9 @@ public class ContactCreationTests extends TestBase {
             app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
         }
         var group = app.hbm().getGroupList().get(0);
-
-        var oldRelated = app.hbm().getContctsInGroup(group);
+        var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().createContact(contacts, group);
-        var newRelated = app.hbm().getContctsInGroup(group);
+        var newRelated = app.hbm().getContactsInGroup(group);
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };

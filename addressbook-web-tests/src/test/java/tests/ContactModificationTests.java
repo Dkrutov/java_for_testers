@@ -1,7 +1,7 @@
 package tests;
 
-import common.CommonFunction;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,5 +30,39 @@ public class ContactModificationTests extends TestBase {
         newContacts.sort(compareById);
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
+    }
+
+    @Test
+    public void ContactModificationInGroup() {
+
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData());
+        }
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        var oldContacts = app.hbm().getContactList();
+        var rnd = new Random();
+        var index = rnd.nextInt(oldContacts.size());
+
+        app.contacts().modifyContactInGroup(oldContacts.get(index), group);
+
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newRelated.sort(compareById);
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(oldContacts.get(index));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newRelated, expectedList);
+    }
+
+
+    @Test
+    public void ContactModificationOutGroup() {
     }
 }
