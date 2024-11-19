@@ -66,5 +66,31 @@ public class ContactModificationTests extends TestBase {
 
     @Test
     public void ContactModificationRemoveFromGroup() {
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+        }
+        var rnd = new Random();
+        var oldGroups = app.hbm().getGroupList();
+        var index = rnd.nextInt(oldGroups.size());
+        var group = app.hbm().getGroupList().get(index);
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        if (oldRelated.isEmpty()) {
+            app.hbm().createContact(new ContactData());
+            var contactNonGroup = app.contacts().getListContactNonGroup();
+            app.contacts().modifyContactInGroup(contactNonGroup.get(0), group);
+            oldRelated = app.hbm().getContactsInGroup(group);
+        }
+        var contact = oldRelated.get(0);
+        app.contacts().modifyContactOutGroup(contact, group);
+
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newRelated.sort(compareById);
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.remove(contact);
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newRelated, expectedList);
     }
 }
