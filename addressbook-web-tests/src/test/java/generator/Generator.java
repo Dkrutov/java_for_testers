@@ -13,6 +13,9 @@ import model.GroupData;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Generator {
 
@@ -70,41 +73,28 @@ public class Generator {
 
     }
 
+    private Object generateData(Supplier<Object> dataSupplier) {
+        return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+    }
+
     private Object generateContacts() {
-        var result = new ArrayList<ContactData>();
-        for (int i = 0; i < count; i++) {
-            if (i == 0) {
-                result.add(new ContactData()
-                        .withFirstName(CommonFunction.randomString(i))
-                        .withLastName(CommonFunction.randomString(i))
-                        .withMiddleName(CommonFunction.randomString(i))
-                        .withAddress(CommonFunction.randomString(i))
-                        .withEmail(CommonFunction.randomString(i))
-                        .withPhone(CommonFunction.randomInt(i))
-                        .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
-            } else {
-                result.add(new ContactData()
-                        .withFirstName(CommonFunction.randomString(i * 10))
-                        .withLastName(CommonFunction.randomString(i * 10))
-                        .withMiddleName(CommonFunction.randomString(i * 10))
-                        .withAddress(CommonFunction.randomString(i * 10))
-                        .withEmail(CommonFunction.randomString(i * 10))
+        return generateData(() -> new ContactData()
+                        .withFirstName(CommonFunction.randomString(10))
+                        .withLastName(CommonFunction.randomString(10))
+                        .withMiddleName(CommonFunction.randomString(10))
+                        .withAddress(CommonFunction.randomString(10))
+                        .withEmail(CommonFunction.randomString(10))
                         .withPhone(CommonFunction.randomInt(11))
                         .withPhoto(CommonFunction.randomFile("src/test/resources/images")));
             }
-        }
-        return result;
-    }
+
+
 
 
     private Object generateGroups() {
-        var result = new ArrayList<GroupData>();
-        for (int i = 0; i < count; i++) {
-            result.add(new GroupData()
-                    .withName(CommonFunction.randomString(i * 10))
-                    .withFooter(CommonFunction.randomString(i * 10))
-                    .withHeader(CommonFunction.randomString(i * 10)));
-        }
-        return result;
+        return generateData(() -> new GroupData()
+                .withName(CommonFunction.randomString(10))
+                .withFooter(CommonFunction.randomString(10))
+                .withHeader(CommonFunction.randomString(10)));
     }
 }

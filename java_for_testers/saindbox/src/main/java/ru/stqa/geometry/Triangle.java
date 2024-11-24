@@ -1,7 +1,5 @@
 package ru.stqa.geometry;
 
-import java.util.Objects;
-
 public record Triangle (double a, double b, double c) {
 
         public Triangle {
@@ -10,9 +8,9 @@ public record Triangle (double a, double b, double c) {
                         throw new IllegalArgumentException("Triangle side should be non-negative");
                 }
 
-                if (a + b < c || a + c < b  || c + b < a  ) {
-                        throw new IllegalArgumentException("The ratio of the sides of the triangle is incorrect");
-                }
+//                if (a + b < c || a + c < b  || c + b < a  ) {
+//                        throw new IllegalArgumentException("The ratio of the sides of the triangle is incorrect");
+//                }
         }
 
         public double area(){
@@ -21,6 +19,14 @@ public record Triangle (double a, double b, double c) {
 
         public double perimeter(){
                 return Math.round((this.a+this.b+this.c)* 100.0) / 100.0;
+        }
+
+        public static void printTrianglePerimeter(Triangle t){
+        System.out.printf("\nПериметр треугольника = %.2f" , t.perimeter());
+        }
+
+        public static void printTriangleArea(Triangle t){
+                System.out.printf( "\nПлощадь треугольника = %.2f" , t.area());
         }
 
         @Override
