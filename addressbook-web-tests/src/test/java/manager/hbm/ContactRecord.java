@@ -40,6 +40,7 @@ public class ContactRecord {
     public String email2 = "email2";
     public String email3 = "email3";
     public String homepage = "homepage";
+    public String phone2;
 
 
 

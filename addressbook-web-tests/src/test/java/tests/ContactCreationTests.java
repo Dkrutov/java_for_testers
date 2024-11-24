@@ -47,7 +47,7 @@ public class ContactCreationTests extends TestBase {
 
     public static List<ContactData> contactNegativeProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData("", "firstName'", "", "", "", "", "", CommonFunction.randomFile("src/test/resources/images"))));
+                new ContactData("", "firstName'", "", "", "", "", "", CommonFunction.randomFile("src/test/resources/images"), "", "", "")));
         return result;
     }
 
