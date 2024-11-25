@@ -38,4 +38,23 @@ public class ContactsInfoTests extends TestBase {
                 .collect(Collectors.joining("\n"));
         Assertions.assertEquals(expected, email);
     }
+
+    @Test
+    void testContactsInfo() {
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(0);
+        var email = app.contacts().getEmail(contact);
+        var address = app.contacts().getAddress(contact);
+        var phones = app.contacts().getPhones(contact);
+        var expectedPhones = Stream.of(contact.home(), contact.phone(), contact.work(), contact.secondary())
+                .filter(s -> s != null && ! "".equals(s))
+                .collect(Collectors.joining("\n"));
+        var expectedAddress = contact.address();
+        var expectedEmail = Stream.of(contact.email(),contact.email2(),contact.email3() )
+                .filter(s -> s != null && ! "".equals(s))
+                .collect(Collectors.joining("\n"));
+        Assertions.assertEquals(expectedEmail, email);
+        Assertions.assertEquals(expectedAddress, address);
+        Assertions.assertEquals(expectedPhones, phones);
+    }
 }
