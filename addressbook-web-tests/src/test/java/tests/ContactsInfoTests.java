@@ -17,6 +17,25 @@ public class ContactsInfoTests extends TestBase {
                 .filter(s -> s != null && ! "".equals(s))
                 .collect(Collectors.joining("\n"));
         Assertions.assertEquals(expected, phones);
+    }
 
+    @Test
+    void testAddress() {
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(0);
+        var address = app.contacts().getAddress(contact);
+        var expected = contact.address();
+        Assertions.assertEquals(expected, address);
+    }
+
+    @Test
+    void testEmail() {
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(0);
+        var email = app.contacts().getEmail(contact);
+        var expected = Stream.of(contact.email(),contact.email2(),contact.email3() )
+                .filter(s -> s != null && ! "".equals(s))
+                .collect(Collectors.joining("\n"));
+        Assertions.assertEquals(expected, email);
     }
 }
