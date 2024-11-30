@@ -7,8 +7,16 @@ public class LoginTests extends TestBase {
 
     @Test
     void canLogin() {
-        app.http().login("administrator","root");
+        app.http().login("odlt","password");
         Assertions.assertTrue(app.http().isLogin());
 
     }
+
+    @Test
+    void canLoginSession() {
+        app.session().login("odlt","password");
+        Assertions.assertTrue(app.session().isLogin());
+
+    }
+
 }
