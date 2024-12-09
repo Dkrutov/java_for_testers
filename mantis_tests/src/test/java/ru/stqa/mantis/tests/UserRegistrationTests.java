@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.mantis.common.CommonFunction;
 import ru.stqa.mantis.model.DeveloperMailUser;
+import ru.stqa.mantis.model.UserData;
 
 import java.time.Duration;
 import java.util.regex.Pattern;
@@ -14,7 +15,7 @@ public class UserRegistrationTests extends TestBase {
     DeveloperMailUser user;
 
 //    @Test
-//    void canRegisterUser() {
+//    void canRegisterUserJamesCli() {
 //        var username = CommonFunction.randomString(4);
 //        var email = String.format("%s@localhost",username);
 //        //создать адресс на почтовом сервере (JamesHelper)
@@ -32,21 +33,21 @@ public class UserRegistrationTests extends TestBase {
 //            app.driver().get(url);
 //        }
 //        //проходим по ссылке и завершаем регистрацию (браузер)
-//        app.session().registrationStepTwo(username);
+//        app.session().registrationStepTwo(username,"password");
 //        //проверяем пользователь может залогиниться (HttpSessionHelper)
 //        app.http().login(username,"password");
 //        Assertions.assertTrue(app.http().isLogin());
 //    }
 
     @Test
-    void canRegisterUser() {
+    void canRegisterUserDeveloperMail() {
         var password = "password";
         user = app.developerMail().addUser();
-        var email = String.format("%s@developermail.com",user.name());
+        var email = String.format("%s@developermail.com", user.name());
 
-        app.session().registrationStepOne(user.name(),email);
+        app.session().registrationStepOne(user.name(), email);
 
-        var message  = app.developerMail().receive(user, Duration.ofSeconds(60));
+        var message = app.developerMail().receive(user, Duration.ofSeconds(60));
 
         var pattern = Pattern.compile("http://\\S*");
         var matcher = pattern.matcher(message);
@@ -55,9 +56,9 @@ public class UserRegistrationTests extends TestBase {
             app.driver().get(url);
         }
 
-        app.session().registrationStepTwo(user.name());
+        app.session().registrationStepTwo(user.name(), password);
 
-        app.http().login(user.name(),password);
+        app.http().login(user.name(), password);
         Assertions.assertTrue(app.http().isLogin());
     }
 
@@ -66,19 +67,22 @@ public class UserRegistrationTests extends TestBase {
 //        app.developerMail().deleteUser(user);
 //    }
 
-        @Test
-    void canRegisterUserApi() {
-        var username = CommonFunction.randomString(4);
-        var email = String.format("%s@localhost",username);
-        //создать адресс на почтовом сервере (JamesHelper)
-        app.jamesApi().addUser(email,"password");
+    @Test
+    void canRegisterUserJamesApi() {
+        var password = "password";
+        var userName = CommonFunction.randomString(4);
+        var email = String.format("%s@localhost", userName);
+        var realName = CommonFunction.randomString(8);
 
-        //заполняем форму создания и отправляем (браузер)
-        app.session().registrationStepOne(username,email);
-        //ждем почту (MailHelper)
+        app.jamesApi().addUser(email, password);
+        app.rest().createUser(new UserData()
+                .withPassword(password)
+                .withRealName(realName)
+                .withUserName(userName)
+                .withEmail(email)
+        );
 
-        var messages  = app.mail().receive(email,"password", Duration.ofSeconds(60));
-        //извлечь ссылку из письма
+        var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
         var text = messages.get(0).content();
         var pattern = Pattern.compile("http://\\S*");
         var matcher = pattern.matcher(text);
@@ -86,11 +90,19 @@ public class UserRegistrationTests extends TestBase {
             var url = text.substring(matcher.start(), matcher.end());
             app.driver().get(url);
         }
-        //проходим по ссылке и завершаем регистрацию (браузер)
-        app.session().registrationStepTwo(username);
-        //проверяем пользователь может залогиниться (HttpSessionHelper)
-        app.http().login(username,"password");
+        app.session().registrationStepTwo(realName, password);
+        app.http().login(userName, password);
         Assertions.assertTrue(app.http().isLogin());
     }
 
+//    @Test
+//    void canCreateUserApi() {
+//        var userName = CommonFunction.randomString(8);
+//        app.rest().createUser(new UserData()
+//                .withPassword("password")
+//                .withRealName(CommonFunction.randomString(8))
+//                .withUserName(userName)
+//                .withEmail(String.format("%s@localhost", userName))
+//        );
+//    }
 }

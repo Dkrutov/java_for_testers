@@ -25,10 +25,10 @@ public class SessionHelper extends HelperBase {
         click(By.cssSelector("input[type='submit']"));
     }
 
-    public void registrationStepTwo(String username) {
-        type(By.name("realname"),username);
-        type(By.name("password"),"password");
-        type(By.name("password_confirm"),"password");
+    public void registrationStepTwo(String realname, String password) {
+        type(By.name("realname"),realname);
+        type(By.name("password"),password);
+        type(By.name("password_confirm"),password);
         click(By.xpath("//*[@id=\"account-update-form\"]/fieldset/span/button/span"));
 //        type(By.name("username"),username);
 //        click(By.cssSelector("input[type='submit']"));
