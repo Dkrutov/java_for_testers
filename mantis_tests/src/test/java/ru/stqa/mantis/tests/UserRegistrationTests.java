@@ -42,25 +42,53 @@ public class UserRegistrationTests extends TestBase {
     void canRegisterUser() {
         var password = "password";
         user = app.developerMail().addUser();
-        var email = String.format("%s@localhost",user.name());
+        var email = String.format("%s@developermail.com",user.name());
 
-//        app.session().registrationStepOne(username,email);
-//        var messages  = app.mail().receive(email,password, Duration.ofSeconds(60));
-//        var text = messages.get(0).content();
-//        var pattern = Pattern.compile("http://\\S*");
-//        var matcher = pattern.matcher(text);
-//        if (matcher.find()) {
-//            var url = text.substring(matcher.start(), matcher.end());
-//            app.driver().get(url);
-//        }
-//        app.session().registrationStepTwo(username);
-//        app.http().login(username,password);
-//        Assertions.assertTrue(app.http().isLogin());
+        app.session().registrationStepOne(user.name(),email);
+
+        var message  = app.developerMail().receive(user, Duration.ofSeconds(60));
+
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(message);
+        if (matcher.find()) {
+            var url = message.substring(matcher.start(), matcher.end());
+            app.driver().get(url);
+        }
+
+        app.session().registrationStepTwo(user.name());
+
+        app.http().login(user.name(),password);
+        Assertions.assertTrue(app.http().isLogin());
     }
 
     @AfterEach
     void deleteMailUser() {
         app.developerMail().deleteUser(user);
+    }
+
+        @Test
+    void canRegisterUserApi() {
+        var username = CommonFunction.randomString(4);
+        var email = String.format("%s@localhost",username);
+        //создать адресс на почтовом сервере (JamesHelper)
+        app.jamesApi().addUser(email,"password");
+        //заполняем форму создания и отправляем (браузер)
+        app.session().registrationStepOne(username,email);
+        //ждем почту (MailHelper)
+        var messages  = app.mail().receive(email,"password", Duration.ofSeconds(60));
+        //извлечь ссылку из письма
+        var text = messages.get(0).content();
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            var url = text.substring(matcher.start(), matcher.end());
+            app.driver().get(url);
+        }
+        //проходим по ссылке и завершаем регистрацию (браузер)
+        app.session().registrationStepTwo(username);
+        //проверяем пользователь может залогиниться (HttpSessionHelper)
+        app.http().login(username,"password");
+        Assertions.assertTrue(app.http().isLogin());
     }
 
 }

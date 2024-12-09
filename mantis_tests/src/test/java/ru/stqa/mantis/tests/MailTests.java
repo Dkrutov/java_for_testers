@@ -11,19 +11,19 @@ public class MailTests extends TestBase {
 
     @Test
     void canReceiveEmail() {
-       var messages = app.mail().receive("user1@localhost","password", Duration.ofSeconds(60));
+       var messages = app.mail().receive("user10@localhost","password", Duration.ofSeconds(60));
         Assertions.assertEquals(1,messages.size());
         System.out.println(messages);
     }
 
     @Test
     void canDrainInbox() {
-        app.mail().drain("user1@localhost","password");
+        app.mail().drain("zyck@localhost","password");
     }
 
     @Test
     void canExtractUrl() {
-        var messages = app.mail().receive("ynmm@localhost","password", Duration.ofSeconds(60));
+        var messages = app.mail().receive("user10@localhost","password", Duration.ofSeconds(10));
         var text = messages.get(0).content();
         var pattern = Pattern.compile("http://\\S*");
         var matcher = pattern.matcher(text);
