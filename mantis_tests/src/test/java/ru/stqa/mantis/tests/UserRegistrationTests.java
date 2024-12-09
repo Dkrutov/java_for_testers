@@ -61,10 +61,10 @@ public class UserRegistrationTests extends TestBase {
         Assertions.assertTrue(app.http().isLogin());
     }
 
-    @AfterEach
-    void deleteMailUser() {
-        app.developerMail().deleteUser(user);
-    }
+//    @AfterEach
+//    void deleteMailUser() {
+//        app.developerMail().deleteUser(user);
+//    }
 
         @Test
     void canRegisterUserApi() {
@@ -72,9 +72,11 @@ public class UserRegistrationTests extends TestBase {
         var email = String.format("%s@localhost",username);
         //создать адресс на почтовом сервере (JamesHelper)
         app.jamesApi().addUser(email,"password");
+
         //заполняем форму создания и отправляем (браузер)
         app.session().registrationStepOne(username,email);
         //ждем почту (MailHelper)
+
         var messages  = app.mail().receive(email,"password", Duration.ofSeconds(60));
         //извлечь ссылку из письма
         var text = messages.get(0).content();
