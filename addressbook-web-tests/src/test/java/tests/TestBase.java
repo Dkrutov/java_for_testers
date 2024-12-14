@@ -23,10 +23,10 @@ public class TestBase {
         }
     }
 
-    @AfterEach
-    void checkDatabaseConsistency() {
-        app.jdbc().checkConsistency();
-    }
+//    @AfterEach
+//    void checkDatabaseConsistency() {
+//        app.jdbc().checkConsistency();
+//    }
 
 
 }

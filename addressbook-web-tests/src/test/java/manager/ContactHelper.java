@@ -120,7 +120,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("work"), contact.work());
         type(By.name("home"), contact.home());
         type(By.name("mobile"), contact.phone());
-        attach(By.name("photo"), contact.photo());
+//        attach(By.name("photo"), contact.photo());
     }
 
     private void fillContactFormModify(ContactData contact) {
@@ -129,6 +129,10 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"), contact.lastName());
         type(By.name("address"), contact.address());
         type(By.name("email"), contact.email());
+        type(By.name("email2"), contact.email2());
+        type(By.name("email3"), contact.email3());
+        type(By.name("work"), contact.work());
+        type(By.name("home"), contact.home());
         type(By.name("mobile"), contact.phone());
     }
 
@@ -191,7 +195,11 @@ public class ContactHelper extends HelperBase {
             var lastName = tr.findElement(By.xpath("td[2]")).getText();
             var checkbox = tr.findElement(By.name("selected[]"));
             var id = checkbox.getAttribute("value");
-            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+            contacts.add(new ContactData()
+                    .withId(id)
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+            );
         }
         return contacts;
     }

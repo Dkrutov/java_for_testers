@@ -13,7 +13,14 @@ public class ContactRecord {
     public ContactRecord() {
     }
 
-    public ContactRecord(int id, String firstname, String middlename, String lastname, String address, String mobile, String email) {
+    public ContactRecord(int id,
+                         String firstname,
+                         String middlename,
+                         String lastname,
+                         String address,
+                         String mobile,
+                         String email
+    ) {
         this.id = id;
         this.firstname = firstname;
         this.middlename = middlename;

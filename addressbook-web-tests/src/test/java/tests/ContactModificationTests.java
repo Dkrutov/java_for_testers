@@ -1,5 +1,6 @@
 package tests;
 
+import common.CommonFunction;
 import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
@@ -41,24 +42,28 @@ public class ContactModificationTests extends TestBase {
             app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
         }
         var group = app.hbm().getGroupList().get(0);
-
         var oldRelated = app.hbm().getContactsInGroup(group);
-        var contactNonGroup = app.contacts().getListContactNonGroup();
-        if (contactNonGroup.isEmpty()) {
-            app.hbm().createContact(new ContactData());
-            contactNonGroup = app.contacts().getListContactNonGroup();
-        }
-        var rnd = new Random();
-        var index = rnd.nextInt(contactNonGroup.size());
-        app.contacts().modifyContactInGroup(contactNonGroup.get(index), group);
 
-        var newRelated = app.hbm().getContactsInGroup(group);
+//        if (contactNonGroup.isEmpty()) {
+            var contactAddInGroup = new ContactData()
+                    .withFirstName(CommonFunction.randomString(10))
+                    .withLastName(CommonFunction.randomString(10));
+            app.contacts().createContact(contactAddInGroup);
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
+        var contactNonGroup = app.contacts().getListContactNonGroup();
+//        var contactNonGroup = app.contacts().getListContactNonGroup();
+//        }
+//        var rnd = new Random();
+//        var index = rnd.nextInt(contactNonGroup.size());
+        contactNonGroup.sort(compareById);
+        app.contacts().modifyContactInGroup(contactNonGroup.get(contactNonGroup.size()-1), group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+
         newRelated.sort(compareById);
         var expectedList = new ArrayList<>(oldRelated);
-        expectedList.add(contactNonGroup.get(index));
+        expectedList.add(contactNonGroup.get(contactNonGroup.size()-1));
         expectedList.sort(compareById);
         Assertions.assertEquals(newRelated, expectedList);
     }
