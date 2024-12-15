@@ -39,6 +39,7 @@ public class ContactHelper extends HelperBase {
 
     public void removeContact(ContactData contact) {
         openHomePage();
+        viewAllGroup();
         selectContact(contact);
         removeSelectedContact();
         try {
@@ -160,6 +161,7 @@ public class ContactHelper extends HelperBase {
 
     public void removeAllContacts() {
         openHomePage();
+        viewAllGroup();
         selectAllContacts();
         removeSelectedContact();
     }
@@ -187,7 +189,7 @@ public class ContactHelper extends HelperBase {
 
     public List<ContactData> getListContactNonGroup() {
         openHomePage();
-        selectNonGroup();
+        viewNonGroup();
         var contacts = new ArrayList<ContactData>();
         var trs = manager.driver.findElements(By.xpath("//tr[@name='entry']"));
         for (var tr : trs) {
@@ -204,8 +206,12 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }
 
-    private void selectNonGroup() {
+    private void viewNonGroup() {
         new Select(manager.driver.findElement(By.name("group"))).selectByValue("[none]");
+    }
+
+    private void viewAllGroup() {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue("");
     }
 
 
